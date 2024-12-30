@@ -29,6 +29,16 @@ The numbers between disaster and non-disaster tweets are shown below. There is a
 
 <img src="screen_shots/disaster_or_not_numbers.jpg"/>
 
+Keywords are explored to see what kind of words are used in disaster tweets. Top 20 disaster keywords are shown below.
 
+<img src="screen_shots/top_20_disaster_keywords.jpg"/>
+
+The top 20 words most used in disaster tweets are shown below.
+
+<img src="screen_shots/top_20_words_in_disaster.jpg"/>
+
+## III. LSTM Analysis: Benchmark
+
+### 1. Data Preprocessing
 
 
