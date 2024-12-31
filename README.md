@@ -47,3 +47,8 @@ The LSTM architectures involve the memory cell which is controlled by three gate
     <img src="screen_shots/lstm_algo2.png" alt>
     <em>image_caption</em>
 </p>
+
+<figure>
+<img src="screen_shots/lstm_algo2.png" style="width:100%">
+<figcaption align = "center"> YOUR CAPTION </figcaption>
+</figure>
