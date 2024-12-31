@@ -41,7 +41,7 @@ Long short-term memory (LSTM) algorithm is a type of recurrent neural network (R
 
 The LSTM architectures involve the memory cell which is controlled by three gates: the input gate, the forget gate, and the update gate. These gates decide what information to add to, remove from, and output from the memory cell. In the image below, the three sigmoid functions are the gates, and they determine if the C value running horizontally above them should be forgotten or retained.
 
-<figure>
-<img src="screen_shots/lstm_algo2.jpg"/>
-<figcaption align = "center"> YOUR CAPTION </figcaption>
-</figure>
+<p>
+    <img src="screen_shots/lstm_algo2.jpg"/>
+    <em>image_caption</em>
+</p>
