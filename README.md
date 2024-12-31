@@ -17,7 +17,7 @@ This problem can be tackled from many other algorithms, but in this project Natu
 
 - The number of occurrences of words in the corpus were counted. Out of 12495 unique words in the corpus, 5454 words appeared more than once. Therefore, the vocabulary size was set at 5000. 
 - Tweet lengths were counted in the training dataset, and most of the tweets were 6 to 20 words long. 
-- There is a data imbalance (disater vs non-dsater tweets), and this was addressed during the data preprocessing step.
+- There is a data imbalance (disater vs non-dsater tweets), and it was addressed during the data preprocessing step.
 - Keywords were explored to see what kind of words are used in disaster tweets, and most used words in disaster tweets were explored as well.
 
 ## III. LSTM Analysis: Benchmark
@@ -25,11 +25,11 @@ This problem can be tackled from many other algorithms, but in this project Natu
 ### 1. Data Preprocessing
 
 1. The text column is combined with location and keyword columns to make one combined text column to feed to NLP model.
-2. Since there is a data imbalance as seen in the EDA section (negative tweets: 4342, positive tweets: 3271), the positive tweets were oversampled by randomly selecting duplicate 1071 tweets from itself.
+2. Since there is a data imbalance (negative tweets: 4342, positive tweets: 3271), the positive tweets were oversampled by randomly selecting duplicate 1071 tweets from itself.
 3. Empty cells in location and keyword columns were replaced with a string "NA". This is a unique word, so that it can be distinguished from all the other words.
 4. The dataset was split into three groups; train 60\%, validation 20\%, and test 20\%. Here the test dataset is a hold-out set for final testing of optimized models. Scikit-learn was used to split the dataset.
 5. Using nltk module, the train and validation datasets are tokenized, and their stop words were removed.
-6. The total number of vocabulary is 12495. But as seen in the EDA section, 7041 words appear only once. The vocabulary size is set at 5000.
+6. The total number of vocabulary is 12495, out of which 7041 words appear only once. The vocabulary size is set at 5000.
 7. The maximum length of tokenized tweets is 28 in the entire train/valid/test dataset. Any tweets longer than 28 were truncated, and any ones shorter than 28 were padded with 0's. 
 8. The tokenized and padded words for train and validation dataset were saved as csv files for reuse in later analysis steps.
 9. Using PyTorch's TensorDatset and DataLoader classes, train dataset were converted to dataloaders with a given batch size.
@@ -42,14 +42,14 @@ Long short-term memory (LSTM) algorithm is a type of recurrent neural network (R
 The LSTM architectures involve the memory cell which is controlled by three gates: the input gate, the forget gate, and the update gate. These gates decide what information to add to, remove from, and output from the memory cell. In the image below, the three sigmoid functions are the gates, and they determine if the C value running horizontally above them should be forgotten or retained.
 
 <figure>
-<img src="screen_shots/lstm_algo2.png" style="width:70%">
-<figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Image from www.projectpro.io/article/lstm-model/832 </figcaption>
+<img src="screen_shots/lstm_algo2.png" style="width:60%">
+<figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Image from www.projectpro.io/article/lstm-model/832 </figcaption>
 </figure>
 
 #### 2) Hyperparameter tuning
-Epoch number was tuned from validation accuracy and loss. The plot below shows that the validation accuracy increased quite steeply initially and then plateaued after the epoch number of 12. The loss plot tells us that after the epoch number of 12, there appeared overfitting. From these observations, the epoch number was set at 12.
+Epoch number was tuned from validation accuracy and loss. The plot below shows that the validation accuracy increased quite steeply initially and then plateaued after the epoch number of 12. The loss plot shows that after the epoch number of 12, there appeared overfitting. From these observations, the epoch number was set at 12.
 
-<img src="screen_shots/epoch_tuning_acc_loss_lstm.jpg">
+<img src="screen_shots/epoch_tuning_acc_loss_lstm.jpg" style="width:80%">
 
 With epoch number tuned in, the following hyperparameters were tuned with a grid search. 
 - hidden dimension = [32, 64, 128] 
@@ -57,7 +57,7 @@ With epoch number tuned in, the following hyperparameters were tuned with a grid
 - learning rate = [0.0003, 0.001, 0.01]
 
 **Hyperparameter selection:**  
-Accuracy, precision, recall, and f1 score obtained from the grid search results. The hyperparameters were selected as follows.  
+Accuracy, precision, recall, and f1 score were obtained from the grid search results. Based on them, the hyperparameters were selected as follows.  
 - Learning rate: 0.001 
 - Hidden dim: 32 
 - Number of LSTM layers: 2 
@@ -76,7 +76,7 @@ Number of test dataset: 1737
 ### 1. Data Preprocessing
 
 1. The text column is combined with location and keyword columns to make a combined text column to feed to NLP model.
-2. Since there is a data imbalance as seen in the EDA section (negative tweets: 4342, positive tweets: 3271), the positive tweets were oversampled by randomly selecting duplicate 1071 tweets from itself.
+2. Since there is a data imbalance (negative tweets: 4342, positive tweets: 3271), the positive tweets were oversampled by randomly selecting duplicate 1071 tweets from itself.
 3. Empty cells in location and keyword columns were replaced with a string "NA". This is a unique word, so that it can be distinguished from all the other words.
 4. To use BERT, special tokens were added at the beginning ("[CLS] ") and end (" [SEP]") of each sentence for BERT to work properly.
 5. To use in BERT model, attention masks were created by converting each token to 1 and leaving 0's untouched.
@@ -109,30 +109,30 @@ There is no need to optimize the learning rate, since BERT model can utilize an 
 **Epoch number tuning:**  
 When the BERT model was run on the train dataset with multiple epochs, an overfitting was observed as seen in the plot below. To remedy this, drop out probability hyperparameter was changed in the pre-trained BERT model's configuration. Drop out probability is a hyperparameter that controls how many percentage of neurons are to be turned off randomly to reduce overfitting. The plot below uses the default drop out probability of 0.1.  
 
-<img src="screen_shots/drop_out_0.1.jpg"/>
+<img src="screen_shots/drop_out_0.1.jpg" style="width:80%"/>
 
 When the default drop out probability of 0.4 was used, there is still an overfitting over epoch number. 
 
-<img src="screen_shots/drop_out_0.4.jpg"/>
+<img src="screen_shots/drop_out_0.4.jpg" style="width:80%"/>
 
-Drop out probabilities were increased to 0.5. The overfitting was somewhat alleviated. However, after the epoch number of 3, there appears an overfitting shown again in the loss plot. 
+Drop out probabilities were increased to 0.5. The overfitting was somewhat alleviated. However, after the epoch number of 3, there appears an overfitting again in the loss plot. 
 
-<img src="screen_shots/drop_out_0.5.jpg"/>
+<img src="screen_shots/drop_out_0.5.jpg" style="width:80%"/>
 
-The drop out probability changes were made hoping that we were allowed to increase the epoch number to get a better accuracy and a lower loss. However, as seen in the above three plots, even though higher drop out probability alleviated the overfitting with higher epoch numbers, its accuracy was worse than lower drop out probability's. So we will have to select an epoch number that gives higher accuracy regardless of drop out probability.  
+The drop out probability was changed hoping that we were allowed to increase the epoch number to get a better accuracy and a lower loss. However, as seen in the above three plots, even though higher drop out probability alleviated the overfitting with higher epoch numbers, its accuracy was worse than lower drop out probability's. So we had to select an epoch number that gave higher accuracy regardless of drop out probability.  
 
-\textbf{Comparison between drop out probabilities:}  
+**Comparison between drop out probabilities:**  
 The following table shows that the drop out probability of 0.1 performs the best with a smaller epoch number. It performs better with higher epochs, but loss gets much worse.
 
 <img src="screen_shots/comparison_between_drop_outs.jpg" style="width:45%"/>
 
-**Hyperparameter selection:**
-From the analysis done above, there is an overfitting over epoch number in this pre-trained BERT model. It can be alleviated with higher drop out probability. However, the best validation accuracy score (84\%) comes from the drop out probability of 0.1 with epoch number of 4 before validation loss shoots up much above the train loss. Therefore, the following hyperparameters are selected.  
+**Hyperparameter selection:**  
+From the analysis done above, there is an overfitting over epoch number in this pre-trained BERT model. It can be alleviated with higher drop out probability. However, the best validation accuracy score (84\%) comes from the drop out probability of 0.1 with epoch number of 4 before validation loss shoots up much above the train loss. Therefore, the following hyperparameters were selected.  
 - Epoch number: 4  
 - Drop out probability: 0.1  
 
 ### 3. Inference test on the hold-out test dataset  
-Data preprocessing was done using dataloader method with batch size of 1.  
+Data preprocessing was done using dataloader method with batch size of 1 to be able run all of the dataset.  
 Number of test data set: 1737  
 - Accuracy:  83.8\%  
 - Precision:  82.2\%  
@@ -142,8 +142,9 @@ Number of test data set: 1737
 ## V. Results  
 **Robustness of BERT model:**  
 The validation accuracy run on the train dataset was 84\% as seen in the table in the previous section. When the model was run on the hold-out dataset, the accuracy was 83.8\%. This serves as robustness of the model.  
-**Comparison between LSTM and BERT:**
-Compared to LSTM, BERT performed about 6 $\sim\ $7\% better for all four metrics. This justifies that the final model adequately solved the problem.
+
+**Comparison between LSTM and BERT:**  
+Compared to LSTM, BERT performed about 6 ~ 7\% better for all four metrics. This justifies that the final model adequately solved the problem.
 
 <figure>
 <img src="screen_shots/comparison_lstm_bert.jpg" style="width:45%">
