@@ -33,3 +33,15 @@ This problem can be tackled from many other algorithms, but in this project Natu
 7. The maximum length of tokenized tweets is 28 in the entire train/valid/test dataset. Any tweets longer than 28 were truncated, and any ones shorter than 28 were padded with 0's. 
 8. The tokenized and padded words for train and validation dataset were saved as csv files for reuse in later analysis steps.
 9. Using PyTorch's TensorDatset and DataLoader classes, train dataset were converted to dataloaders with a given batch size.
+
+### 2. LSTM Model Development
+
+#### 1) LSTM algorithm
+Long short-term memory (LSTM) algorithm is a type of recurrent neural network (RNN) that can retains long term dependencies of previous inputs. From this retention it can influence the decision that is made much later from a particular input. Like in a long sentence, a certain word in front influences a form of words (tense or meaning) near the end of the sentence. RNN suffered the vanishing gradient problem, but LSTM mitigated it.
+
+The LSTM architectures involve the memory cell which is controlled by three gates: the input gate, the forget gate, and the update gate. These gates decide what information to add to, remove from, and output from the memory cell. In the image below, the three sigmoid functions are the gates, and they determine if the C value running horizontally above them should be forgotten or retained.
+
+<figure>
+<img src="screen_shots/lstm_algo2.jpg"/>
+<figcaption align = "center"> YOUR CAPTION </figcaption>
+</figure>
